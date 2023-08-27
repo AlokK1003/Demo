@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Leave Management Application</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <li *ngIf="isUserAuthenticated()" class="nav-item active">
+            <a class="nav-link" routerLink="/userdashboard">Dashboard</a>
+          </li>
+          <li *ngIf="isUserAuthenticated()" class="nav-item active">
+              <a class="nav-link" routerLink="/userdashboard">Leave</a>
+            </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="logOut()">Logout</a>
+        </li>
+        
+      </ul>
+    </div>
+  </nav>
+  <div>
+    <div class="alert alert-success" style="text-align: center;"><b>Leave List</b>
+        <button type="button" class="btn1 applyle" matTooltip="Apply For Leave" (click)="loadUserApplyLeave()">Apply For Leave</button>
+    </div>
+    <div class="table-responsive" style="text-align: center;">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          
+          <th scope="col">FromDate</th>
+          <th scope="col">ToDate</th>
+          <th scope="col">LeaveType</th>
+          <th scope="col">Nature Of Leave</th>
+          <th scope="col">Reason</th>
+          <th scope="col">Status</th>
+          <th scope="col">CreatedDate</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usl of UserLeave | async; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          
+          <td>{{usl.fromDate | date: 'dd/MM/yyyy'}}</td>
+          <td>{{usl.toDate | date: 'dd/MM/yyyy'}}</td>
+          <td>{{((usl.leaveType==1)?"Sick Leave": ((usl.leaveType==2) ?"Annual Leave":((usl.leaveType==3?"Study Leave":"Maternal Leave"))))}}</td>
+          <td>{{usl.natureOfLeave==1?"Local":"Travel"}}</td>
+          <td>{{usl.reason}}</td>
+          <td>{{usl.isActive==1?"Approved":"Pending"}}</td>
+          <td>{{usl.createdDate | date: 'dd/MM/yyyy'}}</td>
+          <td>
+            <button type="button" class="btn1" matTooltip="Click Delete Button">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+      </table>
+    </div>
+  </div>
